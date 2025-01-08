@@ -3,11 +3,11 @@ import Link from "next/link";
 const Home = () => {
   return (
     <div className="flex min-h-screen items-center justify-center">
-      Click
+      Click&nbsp;
       <Link href="/documents/123">
-        <span className="text-blue-500 underline">&nbsp;here&nbsp;</span>
+        <span className="text-blue-500 underline">here</span>
       </Link>
-      to go to document id
+      &nbsp;to go to document id
     </div>
   );
 };
