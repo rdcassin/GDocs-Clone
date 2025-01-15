@@ -5,7 +5,7 @@ const markers = Array.from({ length: 83 }, (_, i) => i);
 
 export const Ruler = () => {
   const [leftMargin, setLeftMargin] = useState(56);
-  const [rightMargin, setRightMargin] = useState(56);
+  const [rightMargin, setRightMargin] = useState(50);
 
   const [isDraggingLeft, setIsDraggingLeft] = useState(false);
   const [isDraggingRight, setIsDraggingRight] = useState(false);
@@ -59,7 +59,7 @@ export const Ruler = () => {
   };
 
   const handleRightDoubleClick = () => {
-    setRightMargin(56);
+    setRightMargin(50);
   };
 
   return (
@@ -68,11 +68,11 @@ export const Ruler = () => {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
-      className="h-6 border-b border-gray-300 flex items-end relative select-none print:hidden"
+      className="w-[816px] mx-auto h-6 border-b border-gray-300 flex items-end relative select-none print:hidden"
     >
       <div
         id="ruler-container"
-        className="max-w-[816px] m-auto w-full h-full relative"
+        className="w-full h-full relative"
       >
         <Marker
           position={leftMargin}
@@ -144,7 +144,7 @@ const Marker = ({
       onMouseDown={onMouseDown}
       onDoubleClick={onDoubleClick}
     >
-      <FaCaretDown className="absolute left-1/2 top-0 h-full fill-blue-500 transform -translate-x-1/2" />
+      <FaCaretDown className="w-[816px] absolute left-1/2 top-0 h-full fill-blue-500 transform -translate-x-1/2" />
       <div
       className="absolute left-1/2 top-4 transform -translate-x-1/2"
       style={{
