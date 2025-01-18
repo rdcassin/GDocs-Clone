@@ -23,10 +23,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <NuqsAdapter>
-          <ConvexClientProvider></ConvexClientProvider>
-          {children}
+          <ConvexClientProvider>{children}</ConvexClientProvider>
         </NuqsAdapter>
       </body>
     </html>
-  );
+  )
 }

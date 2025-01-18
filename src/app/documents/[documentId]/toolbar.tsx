@@ -124,6 +124,7 @@ const FontSizeButton = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+    console.log(e.target.value);
   };
 
   const handleInputBlur = () => {
@@ -134,7 +135,6 @@ const FontSizeButton = () => {
     if (e.key === "Enter") {
       e.preventDefault();
       updateFontSize(inputValue);
-      editor?.commands.focus();
     }
   };
 
@@ -572,8 +572,6 @@ const ToolbarButton = ({
 
 export const Toolbar = () => {
   const { editor } = useEditorStore();
-
-  console.log("Toolbar editor: ", { editor });
 
   const sections: {
     label: string;
