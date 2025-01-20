@@ -2,17 +2,16 @@
 
 import { Navbar } from "./navbar";
 import { TemplatesGallery } from "./templates-gallery";
-import { useQuery } from "convex/react";
+import { usePaginatedQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import { DocumentsTable } from "./documents-table";
 
 const Home = () => {
-  const documents = useQuery(api.documents.get);
-
-  if (documents === undefined) {
-    return(
-      <p>Loading...</p>
-    )
-  }
+  const { results, status, loadMore } = usePaginatedQuery(
+    api.documents.get,
+    {},
+    { initialNumItems: 5 }
+  );
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -21,12 +20,10 @@ const Home = () => {
       </div>
       <div className="mt-16">
         <TemplatesGallery />
-        {documents?.map((document) => (
-          <span key={document._id}>{document.title}</span>
-        ))}
+        <DocumentsTable documents={results} status={status} loadMore={loadMore} />
       </div>
     </div>
-  )
+  );
 };
 
 export default Home;
