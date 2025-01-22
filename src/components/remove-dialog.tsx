@@ -15,6 +15,7 @@ import {
 import { Id } from "../../convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import { toast } from "sonner";
 import { useState } from "react";
 
 interface RemoveDialogProps {
@@ -33,7 +34,7 @@ export const RemoveDialog = ({ documentId, children }: RemoveDialogProps) => {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action is permanent and irreversible. Are you sure?
+            This action is permanent and irreversible. Please confirm.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -45,7 +46,10 @@ export const RemoveDialog = ({ documentId, children }: RemoveDialogProps) => {
             onClick={(e) => {
               e.stopPropagation();
               setIsRemoving(true);
-              remove({ id: documentId }).finally(() => setIsRemoving(false));
+              remove({ id: documentId })
+                .catch(() => toast.error("Something is wrong..."))
+                .then(() => toast.success("Document deleted"))
+                .finally(() => setIsRemoving(false));
             }}
           >
             Delete

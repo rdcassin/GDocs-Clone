@@ -11,12 +11,12 @@ import { RemoveDialog } from "@/components/remove-dialog";
 import { RenameDialog } from "@/components/rename-dialog";
 
 interface DocumentMenuProps {
-  documentId: Id<"document">;
+  documentId: Id<"documents">;
   title: string;
   onNewTab: (id: Id<"documents">) => void;
 }
 
-export const DocumentMenu = ({ documentId, title, onNewTab}) => {
+export const DocumentMenu = ({ documentId, title, onNewTab }: DocumentMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -24,7 +24,7 @@ export const DocumentMenu = ({ documentId, title, onNewTab}) => {
           <MoreVertical className="size-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent onClick={(e) => e.stopPropagation()}>
         <RenameDialog documentId={documentId} initialTitle={title}>
           <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={(e) => e.stopPropagation()}>
             <FilePenIcon className="size-4 mr-2" />
