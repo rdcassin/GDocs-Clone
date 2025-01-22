@@ -140,8 +140,8 @@ export const updateById = mutation({
 
     // Allow any member to rename files.
     const organizationId = (user.organization_id ?? undefined) as
-    | string
-    | undefined;
+      | string
+      | undefined;
 
     const isOrganizationMember = document.organizationId === organizationId;
     if (!isOwner && !isOrganizationMember) {
@@ -149,5 +149,18 @@ export const updateById = mutation({
     }
 
     return await ctx.db.patch(args.id, { title: args.title });
+  },
+});
+
+export const getById = query({
+  args: { id: v.id("documents") },
+  handler: async (ctx, { id }) => {
+    const document = await ctx.db.get(id);
+
+    if (!document) {
+      throw new ConvexError("Document not found");
+    }
+
+    return document;
   },
 });
