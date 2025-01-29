@@ -1,5 +1,10 @@
 "use client";
 
+import { useState } from "react";
+import { toast } from "sonner";
+import { useMutation } from "convex/react";
+import { useRouter } from "next/navigation";
+
 import {
   Carousel,
   CarouselContent,
@@ -9,16 +14,12 @@ import {
 } from "@/components/ui/carousel";
 import { templates } from "@/constants/templates";
 import { cn } from "@/lib/utils";
-import { useMutation } from "convex/react";
-import { useRouter } from "next/navigation";
+
 import { api } from "../../../convex/_generated/api";
-import { useState } from "react";
-import { toast } from "sonner";
 
 export const TemplatesGallery = () => {
   const router = useRouter();
   const create = useMutation(api.documents.create);
-
   const [isCreating, setIsCreating] = useState(false);
 
   const onTemplateClick = (title: string, initialContent: string) => {
@@ -37,7 +38,7 @@ export const TemplatesGallery = () => {
   return (
     <div className="bg-[#F1F3F4]">
       <div className="max-w-screen-xl mx-auto px-16 py-6 flex flex-col gap-y-4">
-        <h3 className="font-medium">Start A New Document</h3>
+        <h3 className="font-medium">Start a new document</h3>
         <Carousel>
           <CarouselContent className="-ml-4">
             {templates.map((template) => (
@@ -53,8 +54,9 @@ export const TemplatesGallery = () => {
                 >
                   <button
                     disabled={isCreating}
-                    /* TODO: Add correct initial content */
-                    onClick={() => onTemplateClick(template.label, template.initialContent)}
+                    onClick={() =>
+                      onTemplateClick(template.label, template.initialContent)
+                    }
                     style={{
                       backgroundImage: `url(${template.imageUrl})`,
                       backgroundSize: "cover",

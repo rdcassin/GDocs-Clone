@@ -1,18 +1,18 @@
-import { TableCell, TableRow } from "@/components/ui/table";
-import { Doc } from "../../../convex/_generated/dataModel";
-
 import { SiGoogledocs } from "react-icons/si";
 import { Building2Icon, CircleUserIcon } from "lucide-react";
 import { format } from "date-fns";
-import { DocumentMenu } from "./document-menu";
 import { useRouter } from "next/navigation";
+
+import { TableCell, TableRow } from "@/components/ui/table";
+
+import { DocumentMenu } from "./document-menu";
+import { Doc } from "../../../convex/_generated/dataModel";
 
 interface DocumentRowProps {
   document: Doc<"documents">;
 }
 
 export const DocumentRow = ({ document }: DocumentRowProps) => {
-
   const router = useRouter();
 
   const onNewTabClick = (id: string) => {
@@ -20,7 +20,10 @@ export const DocumentRow = ({ document }: DocumentRowProps) => {
   };
 
   return (
-    <TableRow onClick={() => router.push(`/documents/${document._id}}`)} className="cursor-pointer">
+    <TableRow
+      onClick={() => router.push(`/documents/${document._id}`)}
+      className="cursor-pointer"
+    >
       <TableCell className="w-[50px]">
         <SiGoogledocs className="size-6 fill-blue-500" />
       </TableCell>

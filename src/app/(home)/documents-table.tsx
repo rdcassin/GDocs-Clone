@@ -1,5 +1,5 @@
 import { PaginationStatus } from "convex/react";
-import { Doc } from "../../../convex/_generated/dataModel";
+import { LoaderIcon } from "lucide-react";
 
 import {
   Table,
@@ -9,9 +9,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { LoaderIcon } from "lucide-react";
-import { DocumentRow } from "./document-row";
 import { Button } from "@/components/ui/button";
+
+import { DocumentRow } from "./document-row";
+import { Doc } from "../../../convex/_generated/dataModel";
 
 interface DocumentsTableProps {
   documents: Doc<"documents">[] | undefined;
@@ -26,7 +27,7 @@ export const DocumentsTable = ({
   loadMore,
   displayedBatchSize,
 }: DocumentsTableProps) => {
-
+  
   return (
     <div className="max-w-screen-xl mx-auto px-16 py-6 flex flex-col gap-5">
       {documents === undefined ? (
@@ -40,12 +41,12 @@ export const DocumentsTable = ({
               <TableHead>Name</TableHead>
               <TableHead>&nbsp;</TableHead>
               <TableHead className="hidden md:table-cell">Shared</TableHead>
-              <TableHead className="hidden md:table-cell">Created At</TableHead>
+              <TableHead className="hidden md:table-cell">Created at</TableHead>
             </TableRow>
           </TableHeader>
           {documents.length === 0 ? (
             <TableBody>
-              <TableRow>
+              <TableRow className="hover:bg-transparent">
                 <TableCell
                   colSpan={4}
                   className="h-24 text-center text-muted-foreground"

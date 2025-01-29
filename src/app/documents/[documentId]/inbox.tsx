@@ -1,12 +1,12 @@
 "use client";
 
 import { BellIcon } from "lucide-react";
+
 import { ClientSideSuspense } from "@liveblocks/react";
 import { useInboxNotifications } from "@liveblocks/react/suspense";
 import { InboxNotification, InboxNotificationList } from "@liveblocks/react-ui";
 import {
   DropdownMenu,
-  DropdownMenuItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -21,7 +21,7 @@ export const Inbox = () => {
           <Button disabled variant="ghost" className="relative" size="icon">
             <BellIcon className="size-5" />
           </Button>
-          <Separator />
+          <Separator orientation="vertical" className="h-6" />
         </>
       }
     >

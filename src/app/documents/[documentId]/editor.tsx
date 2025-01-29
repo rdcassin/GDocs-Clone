@@ -27,14 +27,15 @@ import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margin";
 import { Ruler } from "./ruler";
 import { Threads } from "./threads";
 
-
 interface EditorProps {
   initialContent?: string | undefined;
 }
 
 export const Editor = ({ initialContent }: EditorProps) => {
-  const leftMargin = useStorage((root) => root.leftMargin) ?? LEFT_MARGIN_DEFAULT;
-  const rightMargin = useStorage((root) => root.rightMargin) ?? RIGHT_MARGIN_DEFAULT;
+  const leftMargin =
+    useStorage((root) => root.leftMargin) ?? LEFT_MARGIN_DEFAULT;
+  const rightMargin =
+    useStorage((root) => root.rightMargin) ?? RIGHT_MARGIN_DEFAULT;
 
   const liveblocks = useLiveblocksExtension({
     initialContent,
@@ -43,6 +44,7 @@ export const Editor = ({ initialContent }: EditorProps) => {
   const { setEditor } = useEditorStore();
 
   const editor = useEditor({
+    autofocus: true,
     immediatelyRender: false,
     onCreate({ editor }) {
       setEditor(editor);
@@ -72,7 +74,7 @@ export const Editor = ({ initialContent }: EditorProps) => {
       attributes: {
         style: `padding-left: ${leftMargin}px; padding-right: ${rightMargin}px;`,
         class:
-          "focus:outline-none print:border-0 bg-white border border-{#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pr-14 pb-10 cursor-text",
+          "focus:outline-none print:border-0 bg-white border border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pr-14 pb-10 cursor-text",
       },
     },
     extensions: [
@@ -82,26 +84,30 @@ export const Editor = ({ initialContent }: EditorProps) => {
       }),
       LineHeightExtension,
       FontSizeExtension,
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
       Link.configure({
         openOnClick: false,
         autolink: true,
         defaultProtocol: "https",
       }),
       Color,
-      Highlight.configure({ multicolor: true }),
-      TextStyle,
+      Highlight.configure({
+        multicolor: true,
+      }),
       FontFamily,
+      TextStyle,
       Underline,
       Image,
       Table,
       TableCell,
       TableHeader,
       TableRow,
-      TaskList,
       TaskItem.configure({
         nested: true,
       }),
+      TaskList,
     ],
   });
 
@@ -110,7 +116,7 @@ export const Editor = ({ initialContent }: EditorProps) => {
       <Ruler />
       <div className="min-w-max flex justify-center w-[816px] py-4 print:py-0 mx-auto print:w-full print:min-w-0">
         <EditorContent editor={editor} />
-        <Threads editor={editor}/>
+        <Threads editor={editor} />
       </div>
     </div>
   );

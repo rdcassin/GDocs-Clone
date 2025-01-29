@@ -2,11 +2,13 @@ import { BsCloudCheck, BsCloudSlash } from "react-icons/bs";
 import { useRef, useState } from "react";
 import { useMutation } from "convex/react";
 import { toast } from "sonner";
+import { LoaderIcon } from "lucide-react";
+
+import { useStatus } from "@liveblocks/react";
+import { useDebounce } from "@/hooks/use-debounce";
+
 import { Id } from "../../../../convex/_generated/dataModel";
 import { api } from "../../../../convex/_generated/api";
-import { useDebounce } from "@/hooks/use-debounce";
-import { useStatus } from "@liveblocks/react";
-import { LoaderIcon } from "lucide-react";
 
 interface DocumentInputProps {
   title: string;
@@ -14,7 +16,7 @@ interface DocumentInputProps {
 }
 
 export const DocumentInput = ({ title, id }: DocumentInputProps) => {
-    const status = useStatus();
+  const status = useStatus();
 
   const [value, setValue] = useState(title);
   const [isPending, setIsPending] = useState(false);
@@ -24,7 +26,7 @@ export const DocumentInput = ({ title, id }: DocumentInputProps) => {
 
   const mutate = useMutation(api.documents.updateById);
 
-  const deboundedUpdate = useDebounce((newValue: string) => {
+  const debouncedUpdate = useDebounce((newValue: string) => {
     if (newValue === title) return;
 
     setIsPending(true);
@@ -37,7 +39,7 @@ export const DocumentInput = ({ title, id }: DocumentInputProps) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setValue(newValue);
-    deboundedUpdate(newValue);
+    debouncedUpdate(newValue);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,14 +48,15 @@ export const DocumentInput = ({ title, id }: DocumentInputProps) => {
     setIsPending(true);
     mutate({ id, title: value })
       .then(() => {
-        toast.success("Document updated")
-        setIsEditing(false)
+        toast.success("Document updated");
+        setIsEditing(false);
       })
       .catch(() => toast.error("Something is wrong..."))
       .finally(() => setIsPending(false));
   };
 
-  const showLoader = isPending || status === "connecting" || status === "reconnecting";
+  const showLoader =
+    isPending || status === "connecting" || status === "reconnecting";
   const showError = status === "disconnected";
 
   return (
@@ -86,7 +89,9 @@ export const DocumentInput = ({ title, id }: DocumentInputProps) => {
       )}
       {showError && <BsCloudSlash className="size-4" />}
       {!showError && !showLoader && <BsCloudCheck className="size-4" />}
-      {showLoader && <LoaderIcon className="size-4 animate-spin text-muted-foreground" />}
+      {showLoader && (
+        <LoaderIcon className="size-4 animate-spin text-muted-foreground" />
+      )}
     </div>
   );
 };

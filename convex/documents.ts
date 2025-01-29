@@ -5,11 +5,11 @@ import { mutation, query } from "./_generated/server";
 
 export const getByIds = query({
   args: { ids: v.array(v.id("documents")) },
-  handler: async (convexToJson, { ids }) => {
+  handler: async (ctx, { ids }) => {
     const documents = [];
 
     for (const id of ids) {
-      const document = await convexToJson.db.get(id);
+      const document = await ctx.db.get(id);
 
       if (document) {
         documents.push({ id: document._id, name: document.title });
@@ -31,7 +31,7 @@ export const create = mutation({
     const user = await ctx.auth.getUserIdentity();
 
     if (!user) {
-      throw new ConvexError("Unauthorized User");
+      throw new ConvexError("Unathorized User");
     }
 
     const organizationId = (user.organization_id ?? undefined) as
@@ -80,6 +80,7 @@ export const get = query({
         .withIndex("by_organization_id", (q) =>
           q.eq("organizationId", organizationId)
         )
+        .order("desc")
         .paginate(paginationOpts);
     }
 
@@ -97,6 +98,7 @@ export const get = query({
     return await ctx.db
       .query("documents")
       .withIndex("by_owner_id", (q) => q.eq("ownerId", user.subject))
+      .order("desc")
       .paginate(paginationOpts);
   },
 });
@@ -125,11 +127,10 @@ export const removeById = mutation({
 
     // Allows any member to delete files.
     // const organizationId = (user.organization_id ?? undefined) as
-    // | string
-    // | undefined;
+    //   | string
+    //   | undefined;
     // const isOrganizationMember = !!(
-    //   document.organizationId &&
-    //   document.organizationId === organizationId
+    //   document.organizationId && document.organizationId === organizationId
     // );
     // if (!isOwner && !isOrganizationMember) {
     //   throw new ConvexError("Unauthorized User");
@@ -169,6 +170,7 @@ export const updateById = mutation({
     const isOrganizationMember = !!(
       document.organizationId && document.organizationId === organizationId
     );
+
     if (!isOwner && !isOrganizationMember) {
       throw new ConvexError("Unauthorized User");
     }

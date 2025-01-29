@@ -1,14 +1,14 @@
 "use client";
 
+import { useRef, useState } from "react";
+import { SearchIcon, XIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SearchIcon, XIcon } from "lucide-react";
-import { useRef, useState } from "react";
 import { useSearchParam } from "@/hooks/use-search-param";
 
 export const SearchInput = () => {
   const [search, setSearch] = useSearchParam();
-
   const [value, setValue] = useState(search);
 
   const inputRef = useRef<HTMLInputElement>(null);
