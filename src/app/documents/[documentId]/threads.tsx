@@ -14,7 +14,7 @@ export const Threads = ({ editor }: { editor: Editor | null }) => {
   );
 };
 
-export function ThreadsList({ editor }: { editor: Editor | null }) {
+function ThreadsList({ editor }: { editor: Editor | null }) {
   const { threads } = useThreads({ query: { resolved: false } });
 
   return (

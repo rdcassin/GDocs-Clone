@@ -55,7 +55,6 @@ interface NavbarProps {
 export const Navbar = ({ data }: NavbarProps) => {
   const router = useRouter();
   const { editor } = useEditorStore();
-
   const mutation = useMutation(api.documents.create);
 
   const onNewDocument = () => {
@@ -66,7 +65,7 @@ export const Navbar = ({ data }: NavbarProps) => {
       .catch(() => toast.error("Something is wrong..."))
       .then((id) => {
         toast.success("Document created");
-        router.push(`/documents/{$id}`);
+        router.push(`/documents/${id}`);
       });
   };
 
@@ -283,7 +282,7 @@ export const Navbar = ({ data }: NavbarProps) => {
                         }
                       >
                         <StrikethroughIcon className="size-4 mr-2" />
-                        Strikethrough&nbsp;&nbsp;
+                        <span>Strikethrough&nbsp;&nbsp;</span>{" "}
                         <MenubarShortcut>Ctrl+Shift+S</MenubarShortcut>
                       </MenubarItem>
                     </MenubarSubContent>

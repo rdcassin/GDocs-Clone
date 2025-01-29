@@ -3,17 +3,19 @@
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
+
 import {
   LiveblocksProvider,
   RoomProvider,
   ClientSideSuspense,
 } from "@liveblocks/react/suspense";
 import { FullscreenLoader } from "@/components/fullscreen-loader";
-import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margin";
-import { Id } from "../../../../convex/_generated/dataModel";
-import { getUsers, getDocuments } from "./actions";
+import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
 
-type User = { id: string; name: string; avatar: string };
+import { getUsers, getDocuments } from "./actions";
+import { Id } from "../../../../convex/_generated/dataModel";
+
+type User = { id: string; name: string; avatar: string; color: string };
 
 export function Room({ children }: { children: ReactNode }) {
   const params = useParams();
@@ -39,20 +41,20 @@ export function Room({ children }: { children: ReactNode }) {
   return (
     <LiveblocksProvider
       throttle={16}
-      publicApiKey={
-        "pk_dev_iIgK9jiDyw880AwIxqqrDcB-8nXoq-y39d_ccPOmyA4rs9v1VsHns1S9b-QWEt43"
-      }
-      // authEndpoint={async () => {
-      //   const endpoint = "/api/liveblocks-auth";
-      //   const room = params.documentId as string;
+      // publicApiKey={
+      //   "pk_dev_iIgK9jiDyw880AwIxqqrDcB-8nXoq-y39d_ccPOmyA4rs9v1VsHns1S9b-QWEt43"
+      // }
+      authEndpoint={async () => {
+        const endpoint = "/api/liveblocks-auth";
+        const room = params.documentId as string;
 
-      //   const response = await fetch(endpoint, {
-      //     method: "POST",
-      //     body: JSON.stringify({ room }),
-      //   })
+        const response = await fetch(endpoint, {
+          method: "POST",
+          body: JSON.stringify({ room }),
+        });
 
-      //   return await response.json();
-      // }}
+        return await response.json();
+      }}
       resolveUsers={({ userIds }) => {
         return userIds.map(
           (userId) => users.find((user) => user.id === userId) ?? undefined
@@ -79,7 +81,10 @@ export function Room({ children }: { children: ReactNode }) {
     >
       <RoomProvider
         id={params.documentId as string}
-        initialStorage={{ leftMargin: LEFT_MARGIN_DEFAULT, rightMargin: RIGHT_MARGIN_DEFAULT }}
+        initialStorage={{
+          leftMargin: LEFT_MARGIN_DEFAULT,
+          rightMargin: RIGHT_MARGIN_DEFAULT,
+        }}
       >
         <ClientSideSuspense
           fallback={<FullscreenLoader label="Room loading..." />}

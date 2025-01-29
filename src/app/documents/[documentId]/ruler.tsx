@@ -1,24 +1,26 @@
 import { useRef, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
+
 import { useStorage, useMutation } from "@liveblocks/react";
-import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margin";
+import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from "@/constants/margins";
 
 const markers = Array.from({ length: 83 }, (_, i) => i);
 
 export const Ruler = () => {
-  const leftMargin = useStorage((root) => root.leftMargin) ?? LEFT_MARGIN_DEFAULT;
+  const leftMargin =
+    useStorage((root) => root.leftMargin) ?? LEFT_MARGIN_DEFAULT;
   const setLeftMargin = useMutation(({ storage }, position: number) => {
     storage.set("leftMargin", position);
   }, []);
 
-  const rightMargin = useStorage((root) => root.rightMargin) ?? RIGHT_MARGIN_DEFAULT;
+  const rightMargin =
+    useStorage((root) => root.rightMargin) ?? RIGHT_MARGIN_DEFAULT;
   const setRightMargin = useMutation(({ storage }, position: number) => {
     storage.set("rightMargin", position);
   }, []);
 
   const [isDraggingLeft, setIsDraggingLeft] = useState(false);
   const [isDraggingRight, setIsDraggingRight] = useState(false);
-
   const rulerRef = useRef<HTMLDivElement>(null);
 
   const handleLeftMouseDown = () => {
@@ -32,7 +34,6 @@ export const Ruler = () => {
   const handleMouseMove = (e: React.MouseEvent) => {
     const PAGE_WIDTH = 816;
     const MINIMUM_SPACE = 100;
-
 
     if ((isDraggingLeft || isDraggingRight) && rulerRef.current) {
       const container = rulerRef.current.querySelector("#ruler-container");
@@ -79,10 +80,7 @@ export const Ruler = () => {
       onMouseLeave={handleMouseUp}
       className="w-[816px] mx-auto h-6 border-b border-gray-300 flex items-end relative select-none print:hidden"
     >
-      <div
-        id="ruler-container"
-        className="w-full h-full relative"
-      >
+      <div id="ruler-container" className="w-full h-full relative">
         <Marker
           position={leftMargin}
           isLeft={true}
@@ -101,6 +99,7 @@ export const Ruler = () => {
           <div className="relative h-full w-[816px]">
             {markers.map((marker) => {
               const position = (marker * 816) / 82;
+
               return (
                 <div
                   key={marker}
@@ -153,16 +152,16 @@ const Marker = ({
       onMouseDown={onMouseDown}
       onDoubleClick={onDoubleClick}
     >
-      <FaCaretDown className="w-[816px] absolute left-1/2 top-0 h-full fill-blue-500 transform -translate-x-1/2" />
+      <FaCaretDown className="absolute left-1/2 top-0 h-full fill-blue-500 transform -translate-x-1/2" />
       <div
-      className="absolute left-1/2 top-4 transform -translate-x-1/2"
-      style={{
-        height: "100vh",
-        width: "1px",
-        transform: "scaleX(0.5)",
-        backgroundColor: "#3B72F6",
-        display: isDragging ? "block" : "none",
-      }}
+        className="absolute left-1/2 top-4 transform -translate-x-1/2"
+        style={{
+          height: "100vh",
+          width: "1px",
+          transform: "scaleX(0.5)",
+          backgroundColor: "#3B72F6",
+          display: isDragging ? "block" : "none",
+        }}
       />
     </div>
   );

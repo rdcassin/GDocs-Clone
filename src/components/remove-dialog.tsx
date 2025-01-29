@@ -23,7 +23,7 @@ import { api } from "../../convex/_generated/api";
 interface RemoveDialogProps {
   documentId: Id<"documents">;
   children: React.ReactNode;
-}
+};
 
 export const RemoveDialog = ({ documentId, children }: RemoveDialogProps) => {
   const router = useRouter();
@@ -52,7 +52,7 @@ export const RemoveDialog = ({ documentId, children }: RemoveDialogProps) => {
               remove({ id: documentId })
                 .catch(() => toast.error("Something is wrong..."))
                 .then(() => {
-                  toast.success("Document deleted");
+                  toast.success("Document Deleted");
                   router.push("/");
                 })
                 .finally(() => setIsRemoving(false));

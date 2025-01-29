@@ -2,8 +2,7 @@ import { LoaderIcon } from "lucide-react";
 
 interface FullscreenLoaderProps {
   label?: string;
-  className?: string;
-}
+};
 
 export const FullscreenLoader = ({ label }: FullscreenLoaderProps) => {
   return (
